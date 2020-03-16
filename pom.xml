@@ -18,7 +18,9 @@
     <modules>
         <module>api</module>
         <module>util</module>
-        <module>product</module>
+        <module>microservices/product</module>
+        <module>microservices/recommendation</module>
+        <module>microservices/review</module>
     </modules>
 
     <dependencies>
