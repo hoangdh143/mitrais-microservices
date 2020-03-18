@@ -56,7 +56,7 @@ public class ProductCompositeServiceImpl implements ProductCompositeService {
 
             LOG.debug("createCompositeProduct: creates a new composite entity for productId: {}", body.getProductId());
 
-            Product product = new Product(body.getProductId(), body.getName(), body.getWeight(), null);
+            Product product = new Product(body.getProductId(), body.getName(), null);
             integration.createProduct(product);
 
             if (body.getRecommendations() != null) {
@@ -154,7 +154,7 @@ public class ProductCompositeServiceImpl implements ProductCompositeService {
             throw new NotFoundException(errMsg);
         }
 
-        return new Product(productId, "Fallback product" + productId, productId, serviceUtil.getServiceAddress());
+        return new Product(productId, "Fallback product" + productId, serviceUtil.getServiceAddress());
     }
 
     private ProductAggregate createProductAggregate(SecurityContext sc, Product product, List<Recommendation> recommendations, List<Review> reviews, String serviceAddress) {
@@ -164,7 +164,6 @@ public class ProductCompositeServiceImpl implements ProductCompositeService {
         // 1. Setup product info
         int productId = product.getProductId();
         String name = product.getName();
-        int weight = product.getWeight();
 
         // 2. Copy summary recommendation info, if available
         List<RecommendationSummary> recommendationSummaries = (recommendations == null) ? null :
@@ -184,7 +183,7 @@ public class ProductCompositeServiceImpl implements ProductCompositeService {
         String recommendationAddress = (recommendations != null && recommendations.size() > 0) ? recommendations.get(0).getServiceAddress() : "";
         ServiceAddresses serviceAddresses = new ServiceAddresses(serviceAddress, productAddress, reviewAddress, recommendationAddress);
 
-        return new ProductAggregate(productId, name, weight, recommendationSummaries, reviewSummaries, serviceAddresses);
+        return new ProductAggregate(productId, name, recommendationSummaries, reviewSummaries, serviceAddresses);
     }
 
     private void logAuthorizationInfo(SecurityContext sc) {
