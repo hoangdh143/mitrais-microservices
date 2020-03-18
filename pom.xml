@@ -21,6 +21,7 @@
         <module>microservices/product</module>
         <module>microservices/recommendation</module>
         <module>microservices/review</module>
+        <module>microservices/product-composite</module>
         <module>spring-cloud/authorization-server</module>
         <module>spring-cloud/gateway</module>
     </modules>
