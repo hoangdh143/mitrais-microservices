@@ -10,9 +10,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import static java.util.logging.Level.FINE;
 
 @RestController
 public class RecommendationServiceImpl implements RecommendationService {
@@ -49,15 +52,18 @@ public class RecommendationServiceImpl implements RecommendationService {
     }
 
     @Override
-    public Flux<Recommendation> getRecommendations(int productId) {
+    public Flux<Recommendation> getRecommendations(HttpHeaders headers, int productId) {
 
         if (productId < 1) throw new InvalidInputException("Invalid productId: " + productId);
 
+        LOG.info("Will get recommendations for product with id={}", productId);
+
         return repository.findByProductId(productId)
-            .log()
-            .map(e -> mapper.entityToApi(e))
-            .map(e -> {e.setServiceAddress(serviceUtil.getServiceAddress()); return e;});
+                .log(null, FINE)
+                .map(e -> mapper.entityToApi(e))
+                .map(e -> {e.setServiceAddress(serviceUtil.getServiceAddress()); return e;});
     }
+
 
     @Override
     public void deleteRecommendations(int productId) {

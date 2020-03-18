@@ -1,5 +1,6 @@
 package com.mitrais.product.services;
 
+import com.mitrais.api.core.product.Product;
 import com.mitrais.product.persistence.ProductEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

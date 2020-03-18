@@ -10,11 +10,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.scheduler.Scheduler;
 
 import java.util.List;
+
+import static java.util.logging.Level.FINE;
 
 @RestController
 public class ReviewServiceImpl implements ReviewService {
@@ -55,11 +58,13 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public Flux<Review> getReviews(int productId) {
+    public Flux<Review> getReviews(HttpHeaders headers, int productId) {
 
         if (productId < 1) throw new InvalidInputException("Invalid productId: " + productId);
 
-        return asyncFlux(getByProductId(productId)).log();
+        LOG.info("Will get reviews for product with id={}", productId);
+
+        return asyncFlux(getByProductId(productId)).log(null, FINE);
     }
 
     protected List<Review> getByProductId(int productId) {

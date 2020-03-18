@@ -1,6 +1,8 @@
 package com.mitrais.product.services;
 
 
+import com.mitrais.api.core.product.Product;
+import com.mitrais.api.core.product.ProductService;
 import com.mitrais.product.persistence.ProductEntity;
 import com.mitrais.product.persistence.ProductRepository;
 import com.mitrais.util.exceptions.InvalidInputException;
